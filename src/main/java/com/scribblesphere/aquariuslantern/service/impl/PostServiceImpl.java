@@ -11,6 +11,9 @@ import com.scribblesphere.aquariuslantern.repository.UserRepository;
 import com.scribblesphere.aquariuslantern.service.PostService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -67,8 +70,10 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public List<PostData> getPosts() {
-        List<Post> posts = postRepository.findAll();
+    public List<PostData> getPosts(Integer page, Integer size) {
+        Pageable pageable = PageRequest.of((page-1), size);
+        Page<Post> pagePost = postRepository.findAll(pageable);
+        List<Post> posts = pagePost.getContent();
         return posts.stream()
                 .map(this::postToData)
                 .collect(Collectors.toList());

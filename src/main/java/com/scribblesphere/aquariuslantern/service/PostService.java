@@ -15,7 +15,7 @@ public interface PostService {
 
     PostData getPostById(Long postId);
 
-    List<PostData> getPosts();
+    List<PostData> getPosts(Integer page, Integer size);
 
     List<PostData> getPostsByUser(Long userId);
 
