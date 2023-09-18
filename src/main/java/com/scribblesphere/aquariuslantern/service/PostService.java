@@ -1,6 +1,7 @@
 package com.scribblesphere.aquariuslantern.service;
 
 import com.scribblesphere.aquariuslantern.dto.PostData;
+import com.scribblesphere.aquariuslantern.dto.PostResponse;
 import com.scribblesphere.aquariuslantern.entity.Post;
 
 import java.util.List;
@@ -15,10 +16,16 @@ public interface PostService {
 
     PostData getPostById(Long postId);
 
-    List<PostData> getPosts(Integer page, Integer size);
+    PostResponse getPosts(Integer page, Integer size, String sort, String dir);
 
-    List<PostData> getPostsByUser(Long userId);
+    PostResponse getPostsByUser(Long userId, Integer page, Integer size, String sort, String dir);
 
-    List<PostData> getPostsByCategory(Long categoryId);
+    PostResponse getPostsByCategory(Long categoryId, Integer page, Integer size, String sort, String dir);
+
+    PostResponse searchPosts(String keyword, Integer page, Integer size, String sort, String dir);
+
+    Post dataToPost(PostData data);
+
+    PostData postToData(Post post);
 
 }

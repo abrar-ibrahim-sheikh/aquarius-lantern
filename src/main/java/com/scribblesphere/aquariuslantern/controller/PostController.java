@@ -1,7 +1,8 @@
 package com.scribblesphere.aquariuslantern.controller;
 
+import com.scribblesphere.aquariuslantern.config.BlogConstants;
 import com.scribblesphere.aquariuslantern.dto.PostData;
-import com.scribblesphere.aquariuslantern.entity.Post;
+import com.scribblesphere.aquariuslantern.dto.PostResponse;
 import com.scribblesphere.aquariuslantern.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -41,22 +42,42 @@ public class PostController {
         return new ResponseEntity<>(post, HttpStatus.OK);
     }
 
-    @GetMapping(params = {"page", "size"})
-    public ResponseEntity<List<PostData>> getPosts(@RequestParam(value = "page", defaultValue = "0", required = false) Integer page,
-                                                   @RequestParam(value = "size", defaultValue = "10", required = false) Integer size) {
-        List<PostData> posts = postService.getPosts(page, size);
+    @GetMapping(params = {"page", "size", "sort", "dir"})
+    public ResponseEntity<PostResponse> getPosts(@RequestParam(value = "page", defaultValue = BlogConstants.PAGE_NUMBER, required = false) Integer page,
+                                                 @RequestParam(value = "size", defaultValue = BlogConstants.PAGE_SIZE, required = false) Integer size,
+                                                 @RequestParam(value = "sort", defaultValue = BlogConstants.SORT_BY, required = false) String sort,
+                                                 @RequestParam(value = "dir", defaultValue = BlogConstants.SORT_BY, required = false) String dir) {
+        PostResponse posts = postService.getPosts(page, size, sort, dir);
         return new ResponseEntity<>(posts, HttpStatus.OK);
     }
 
-    @GetMapping("/user/{userId}")
-    public ResponseEntity<List<PostData>> getPostsByUser(@PathVariable Long userId) {
-        List<PostData> posts = postService.getPostsByUser(userId);
+    @GetMapping(value = "/user/{userId}", params = {"page", "size", "sort", "dir"})
+    public ResponseEntity<PostResponse> getPostsByUser(@PathVariable Long userId,
+                                                         @RequestParam(value = "page", defaultValue = BlogConstants.PAGE_NUMBER, required = false) Integer page,
+                                                         @RequestParam(value = "size", defaultValue = BlogConstants.PAGE_SIZE, required = false) Integer size,
+                                                         @RequestParam(value = "sort", defaultValue = BlogConstants.SORT_BY, required = false) String sort,
+                                                         @RequestParam(value = "dir", defaultValue = BlogConstants.DIRECTION, required = false) String dir) {
+        PostResponse posts = postService.getPostsByUser(userId, page, size, sort, dir);
         return new ResponseEntity<>(posts, HttpStatus.OK);
     }
 
-    @GetMapping("/category/{categoryId}")
-    public ResponseEntity<List<PostData>> getPostsByCategory(@PathVariable Long categoryId) {
-        List<PostData> posts = postService.getPostsByCategory(categoryId);
+    @GetMapping(value = "/category/{categoryId}", params = {"page", "size", "sort", "dir"})
+    public ResponseEntity<PostResponse> getPostsByCategory(@PathVariable Long categoryId,
+                                                             @RequestParam(value = "page", defaultValue = BlogConstants.PAGE_NUMBER, required = false) Integer page,
+                                                             @RequestParam(value = "size", defaultValue = BlogConstants.PAGE_SIZE, required = false) Integer size,
+                                                             @RequestParam(value = "sort", defaultValue = BlogConstants.SORT_BY, required = false) String sort,
+                                                             @RequestParam(value = "dir", defaultValue = BlogConstants.DIRECTION, required = false) String dir) {
+        PostResponse posts = postService.getPostsByCategory(categoryId, page, size, sort, dir);
+        return new ResponseEntity<>(posts, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/search", params = {"keyword", "page", "size", "sort", "dir"})
+    public ResponseEntity<PostResponse> searchPosts(@RequestParam(value = "keyword") String keyword,
+                                                      @RequestParam(value = "page", defaultValue = BlogConstants.PAGE_NUMBER, required = false) Integer page,
+                                                      @RequestParam(value = "size", defaultValue = BlogConstants.PAGE_SIZE, required = false) Integer size,
+                                                      @RequestParam(value = "sort", defaultValue = BlogConstants.SORT_BY, required = false) String sort,
+                                                      @RequestParam(value = "dir", defaultValue = BlogConstants.DIRECTION, required = false) String dir) {
+        PostResponse posts = postService.searchPosts(keyword, page, size, sort, dir);
         return new ResponseEntity<>(posts, HttpStatus.OK);
     }
 

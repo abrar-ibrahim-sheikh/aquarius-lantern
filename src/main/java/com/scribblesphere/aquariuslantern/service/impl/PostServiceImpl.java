@@ -1,6 +1,7 @@
 package com.scribblesphere.aquariuslantern.service.impl;
 
 import com.scribblesphere.aquariuslantern.dto.PostData;
+import com.scribblesphere.aquariuslantern.dto.PostResponse;
 import com.scribblesphere.aquariuslantern.entity.Category;
 import com.scribblesphere.aquariuslantern.entity.Post;
 import com.scribblesphere.aquariuslantern.entity.User;
@@ -14,10 +15,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class PostServiceImpl implements PostService {
@@ -31,10 +32,8 @@ public class PostServiceImpl implements PostService {
     @Autowired
     private CategoryRepository categoryRepository;
 
-
     @Autowired
     private ModelMapper modelMapper;
-
 
     @Override
     public PostData savePost(PostData data) {
@@ -50,6 +49,8 @@ public class PostServiceImpl implements PostService {
                 .orElseThrow(() -> new ResourceNotFoundException("User", "userId", String.valueOf(data.getUserId())));
         Category category = categoryRepository.findById(data.getCategoryId())
                         .orElseThrow(() -> new ResourceNotFoundException("Category", "categoryId", String.valueOf(data.getCategoryId())));
+        if (data.getImageUrl() != null)
+            post.setImageUrl(data.getImageUrl());
         post.setTitle(data.getTitle());
         post.setContent(data.getContent());
         post.setCategory(category);
@@ -70,41 +71,76 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public List<PostData> getPosts(Integer page, Integer size) {
-        Pageable pageable = PageRequest.of((page-1), size);
+    public PostResponse getPosts(Integer page, Integer size, String sort, String dir) {
+        Pageable pageable = PageRequest.of(page, size);
         Page<Post> pagePost = postRepository.findAll(pageable);
         List<Post> posts = pagePost.getContent();
-        return posts.stream()
+        List<PostData> content=  posts.stream()
                 .map(this::postToData)
-                .collect(Collectors.toList());
+                .toList();
+
+        return getPostResponse(content, pagePost);
     }
 
     @Override
-    public List<PostData> getPostsByUser(Long userId) {
+    public PostResponse getPostsByUser(Long userId, Integer page, Integer size, String sort, String dir) {
+        Sort sortBy = dir.equalsIgnoreCase("ASC") ? Sort.by(sort).ascending() : Sort.by(sort).descending();
+        Pageable pageable = PageRequest.of(page, size, sortBy);
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new ResourceNotFoundException("User", "userId", String.valueOf(userId)));
-        List<Post> posts = postRepository.findByUser(user);
-        return posts.stream()
+        Page<Post> pagePost = postRepository.findByUser(user, pageable);
+        List<Post> posts = pagePost.getContent();
+        List<PostData> content = posts.stream()
                 .map(this::postToData)
-                .collect(Collectors.toList());
+                .toList();
+        return getPostResponse(content, pagePost);
     }
 
     @Override
-    public List<PostData> getPostsByCategory(Long categoryId) {
+    public PostResponse getPostsByCategory(Long categoryId, Integer page, Integer size, String sort, String dir) {
+        Sort sortBy = dir.equalsIgnoreCase("ASC") ? Sort.by(sort).ascending() : Sort.by(sort).descending();
+        Pageable pageable = PageRequest.of(page, size, sortBy);
         Category category = categoryRepository.findById(categoryId)
                 .orElseThrow(() -> new ResourceNotFoundException("Category", "categoryId", String.valueOf(categoryId)));
-        List<Post> posts = postRepository.findByCategory(category);
-        return posts.stream()
+        Page<Post> pagePost = postRepository.findByCategory(category, pageable);
+        List<Post> posts = pagePost.getContent();
+        List<PostData> content = posts.stream()
                 .map(this::postToData)
-                .collect(Collectors.toList());
+                .toList();
+        return getPostResponse(content, pagePost);
     }
 
-    private Post dataToPost(PostData data) {
+    @Override
+    public PostResponse searchPosts(String keyword, Integer page, Integer size, String sort, String dir) {
+        Sort sortBy = dir.equalsIgnoreCase("ASC") ? Sort.by(sort).ascending() : Sort.by(sort).descending();
+        Pageable pageable = PageRequest.of(page, size, sortBy);
+        Page<Post> pagePost = postRepository.findByContentContaining(keyword, pageable);
+        List<Post> posts = pagePost.getContent();
+        List<PostData> content =  posts.stream()
+                .map(this::postToData)
+                .toList();
+        return getPostResponse(content, pagePost);
+    }
+
+    @Override
+    public Post dataToPost(PostData data) {
         return modelMapper.map(data, Post.class);
     }
 
-    private PostData postToData(Post post) {
+    @Override
+    public PostData postToData(Post post) {
         return modelMapper.map(post, PostData.class);
+    }
+
+    private PostResponse getPostResponse(List<PostData> content, Page<Post> pagePost) {
+        PostResponse response = new PostResponse();
+        response.setContent(content);
+        response.setPageNumber(pagePost.getNumber());
+        response.setPageSize(pagePost.getSize());
+        response.setTotalElements(pagePost.getTotalElements());
+        response.setTotalPages(pagePost.getTotalPages());
+        response.setIsLastPage(pagePost.isLast());
+        return response;
     }
 
 }

@@ -6,6 +6,9 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.Instant;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
 
 
 @Entity
@@ -24,6 +27,9 @@ public class Post {
     @Column(name = "CONTENT", length = 10000, nullable = false)
     private String content;
 
+    @Column(name = "IMG_URL")
+    private String imageUrl;
+
     @ManyToOne
     @JoinColumn(name = "CATEGORY_ID")
     private Category category;
@@ -31,6 +37,9 @@ public class Post {
     @ManyToOne
     @JoinColumn(name = "USER_ID")
     private User user;
+
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
+    private List<Comment> comments = new LinkedList<>();
 
     @CreationTimestamp
     @Column(name = "CREATED_DATE")

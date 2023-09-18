@@ -15,6 +15,4 @@ public class CategoryData implements Serializable {
 
     private String description;
 
-    private Long userId;
-
 }
