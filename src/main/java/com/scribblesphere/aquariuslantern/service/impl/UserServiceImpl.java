@@ -1,6 +1,6 @@
 package com.scribblesphere.aquariuslantern.service.impl;
 
-import com.scribblesphere.aquariuslantern.dto.UserData;
+import com.scribblesphere.aquariuslantern.vo.UserData;
 import com.scribblesphere.aquariuslantern.entity.User;
 import com.scribblesphere.aquariuslantern.exception.ResourceNotFoundException;
 import com.scribblesphere.aquariuslantern.repository.UserRepository;
@@ -10,7 +10,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service

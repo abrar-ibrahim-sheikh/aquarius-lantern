@@ -1,6 +1,6 @@
 package com.scribblesphere.aquariuslantern.controller;
 
-import com.scribblesphere.aquariuslantern.dto.CategoryData;
+import com.scribblesphere.aquariuslantern.vo.CategoryData;
 import com.scribblesphere.aquariuslantern.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

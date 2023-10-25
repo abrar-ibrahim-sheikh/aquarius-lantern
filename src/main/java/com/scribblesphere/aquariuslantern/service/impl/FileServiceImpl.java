@@ -1,9 +1,6 @@
 package com.scribblesphere.aquariuslantern.service.impl;
 
-import com.scribblesphere.aquariuslantern.dto.PostData;
-import com.scribblesphere.aquariuslantern.entity.Post;
-import com.scribblesphere.aquariuslantern.exception.ResourceNotFoundException;
-import com.scribblesphere.aquariuslantern.repository.PostRepository;
+import com.scribblesphere.aquariuslantern.vo.PostData;
 import com.scribblesphere.aquariuslantern.service.FileService;
 import com.scribblesphere.aquariuslantern.service.PostService;
 import lombok.extern.slf4j.Slf4j;

@@ -1,6 +1,6 @@
 package com.scribblesphere.aquariuslantern.service.impl;
 
-import com.scribblesphere.aquariuslantern.dto.CommentData;
+import com.scribblesphere.aquariuslantern.vo.CommentData;
 import com.scribblesphere.aquariuslantern.entity.Comment;
 import com.scribblesphere.aquariuslantern.entity.Post;
 import com.scribblesphere.aquariuslantern.exception.ResourceNotFoundException;

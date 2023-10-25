@@ -1,4 +1,4 @@
-package com.scribblesphere.aquariuslantern.dto;
+package com.scribblesphere.aquariuslantern.vo;
 
 import lombok.Data;
 

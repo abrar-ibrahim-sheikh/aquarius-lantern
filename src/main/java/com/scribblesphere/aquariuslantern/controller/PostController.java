@@ -1,15 +1,13 @@
 package com.scribblesphere.aquariuslantern.controller;
 
 import com.scribblesphere.aquariuslantern.config.BlogConstants;
-import com.scribblesphere.aquariuslantern.dto.PostData;
-import com.scribblesphere.aquariuslantern.dto.PostResponse;
+import com.scribblesphere.aquariuslantern.vo.PostData;
+import com.scribblesphere.aquariuslantern.vo.PostResponse;
 import com.scribblesphere.aquariuslantern.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/post")

@@ -1,6 +1,6 @@
 package com.scribblesphere.aquariuslantern.service.impl;
 
-import com.scribblesphere.aquariuslantern.dto.CategoryData;
+import com.scribblesphere.aquariuslantern.vo.CategoryData;
 import com.scribblesphere.aquariuslantern.entity.Category;
 import com.scribblesphere.aquariuslantern.exception.ResourceNotFoundException;
 import com.scribblesphere.aquariuslantern.repository.CategoryRepository;

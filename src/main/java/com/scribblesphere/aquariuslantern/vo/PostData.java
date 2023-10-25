@@ -1,14 +1,10 @@
-package com.scribblesphere.aquariuslantern.dto;
+package com.scribblesphere.aquariuslantern.vo;
 
-import com.scribblesphere.aquariuslantern.entity.Category;
-import com.scribblesphere.aquariuslantern.entity.Comment;
-import com.scribblesphere.aquariuslantern.entity.User;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.Data;
 
 import java.io.Serializable;
 import java.time.Instant;
-import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -24,10 +20,6 @@ public class PostData implements Serializable {
     private String content;
 
     private String imageUrl;
-
-//    private Category category;
-
-//    private User user;
 
     private Long categoryId;
 

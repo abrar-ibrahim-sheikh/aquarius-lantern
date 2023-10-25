@@ -1,6 +1,5 @@
-package com.scribblesphere.aquariuslantern.dto;
+package com.scribblesphere.aquariuslantern.vo;
 
-import com.scribblesphere.aquariuslantern.entity.Post;
 import lombok.Data;
 
 import java.util.List;

@@ -1,13 +1,12 @@
 package com.scribblesphere.aquariuslantern.service;
 
-import com.scribblesphere.aquariuslantern.dto.PostData;
-import com.scribblesphere.aquariuslantern.dto.PostResponse;
+import com.scribblesphere.aquariuslantern.vo.PostData;
+import com.scribblesphere.aquariuslantern.vo.PostResponse;
 import com.scribblesphere.aquariuslantern.entity.Post;
-
-import java.util.List;
 
 
 public interface PostService {
+
     PostData savePost(PostData post);
 
     PostData updatePost(Long postId, PostData post);

@@ -1,7 +1,7 @@
 package com.scribblesphere.aquariuslantern.service.impl;
 
-import com.scribblesphere.aquariuslantern.dto.PostData;
-import com.scribblesphere.aquariuslantern.dto.PostResponse;
+import com.scribblesphere.aquariuslantern.vo.PostData;
+import com.scribblesphere.aquariuslantern.vo.PostResponse;
 import com.scribblesphere.aquariuslantern.entity.Category;
 import com.scribblesphere.aquariuslantern.entity.Post;
 import com.scribblesphere.aquariuslantern.entity.User;

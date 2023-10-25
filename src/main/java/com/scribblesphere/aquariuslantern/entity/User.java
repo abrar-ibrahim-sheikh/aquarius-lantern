@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
+import lombok.Builder;
 import lombok.Data;
 
 import java.util.HashSet;
@@ -12,6 +13,7 @@ import java.util.Set;
 @Entity
 @Table
 @Data
+@Builder
 public class User {
 
     @Id
@@ -35,16 +37,8 @@ public class User {
     @Column(name = "ABOUT")
     private String about;
 
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinTable(name = "user_role",
-            joinColumns = @JoinColumn(name = "user", referencedColumnName = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "role", referencedColumnName = "roleId"))
-    private Set<Role> roles = new HashSet<>();
-
-//    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-//    private List<Post> posts = new LinkedList<>();
-//
-//    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "user")
-//    private List<Category> categories = new LinkedList<>();
+    @Enumerated(EnumType.STRING)
+    @Column(name = "ROLE")
+    private Role role;
 
 }

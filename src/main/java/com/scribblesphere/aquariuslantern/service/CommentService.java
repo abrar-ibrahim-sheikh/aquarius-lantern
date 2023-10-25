@@ -1,6 +1,6 @@
 package com.scribblesphere.aquariuslantern.service;
 
-import com.scribblesphere.aquariuslantern.dto.CommentData;
+import com.scribblesphere.aquariuslantern.vo.CommentData;
 
 public interface CommentService {
 
